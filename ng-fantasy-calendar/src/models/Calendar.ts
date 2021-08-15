@@ -1,6 +1,7 @@
 import { Month } from "./Month";
 
 export interface Calendar {
-    daysPerYear: number;
+    title: string;
+    daysOfWeek: string[];
     months: Month[];
 }

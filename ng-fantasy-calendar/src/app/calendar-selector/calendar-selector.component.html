@@ -1,0 +1,11 @@
+<mat-form-field>
+    <mat-select placeholder="Choose a calendar">
+      <mat-option *ngFor="let calendar of calendarGroup" [value]="activeCalendar">
+        {{ activeCalendar.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+<app-calendar>
+    
+</app-calendar>
