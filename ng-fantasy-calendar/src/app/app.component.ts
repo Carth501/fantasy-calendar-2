@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ng-fantasy-calendar';
+  title = 'Fantasy Calendar';
+  subtitle = 'v2';
 }
