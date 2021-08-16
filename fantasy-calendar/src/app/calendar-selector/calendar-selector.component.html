@@ -1,1 +1,27 @@
-<p>calendar-selector works!</p>
+<div class="header">
+  <div>
+    <div class="title">
+      {{ title }}
+    </div>
+    <div class="subtitle">
+      {{ subtitle }}
+    </div>
+  </div>
+
+  <mat-form-field>
+    <mat-select placeholder="Select a calendar" [(value)]="activeCalendar">
+      <mat-option
+        *ngFor="let calendar of calendarGroup.calendars"
+        [value]="calendar"
+      >
+        {{ calendar.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="calendar">
+  <app-calendar
+    [calendar]="activeCalendar"
+    [dayID]="calendarGroup.dayID"
+  ></app-calendar>
+</div>
