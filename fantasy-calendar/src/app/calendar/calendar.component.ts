@@ -11,7 +11,6 @@ export class CalendarComponent implements OnInit {
   _calendar!: Calendar;
   _dayID!: number;
   _year!: number;
-  _dayOfYear!: number;
 
   @Input() set intakeCalendar(calendar: Calendar) {
     this._calendar = calendar;
@@ -28,12 +27,8 @@ export class CalendarComponent implements OnInit {
 
   calculateYear(): void {
     if (this._calendar != null && this._dayID) {
-      const yearData = this.calculator.calculateYear(
-        this._calendar,
-        this._dayID
-      );
-      this._year = yearData[0];
-      this._dayOfYear = yearData[1];
+      const year = this.calculator.calculateYear(this._calendar, this._dayID);
+      this._year = year;
     }
   }
 }

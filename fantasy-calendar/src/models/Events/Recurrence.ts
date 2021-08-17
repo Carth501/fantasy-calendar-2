@@ -1,7 +1,5 @@
-export interface Recurrence {
+export interface Recurrence extends Event {
   frequency: number; // 0 < x <= 1
-  title: string;
-  description: string;
   pattern: EventPattern;
   dayID: number;
   dayOfYear: number;

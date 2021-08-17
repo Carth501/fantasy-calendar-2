@@ -1,5 +1,3 @@
-export interface Incident {
+export interface Incident extends Event {
   dayID: number;
-  title: string;
-  description: string;
 }
