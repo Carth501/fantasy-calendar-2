@@ -1,14 +1,14 @@
 <div class="header">
   <div>
-    <div class="title">
+    <div class="page-title">
       {{ title }}
     </div>
-    <div class="subtitle">
+    <div class="page-subtitle">
       {{ subtitle }}
     </div>
   </div>
 
-  <mat-form-field>
+  <mat-form-field class="calendar-select">
     <mat-select placeholder="Select a calendar" [(value)]="activeCalendar">
       <mat-option
         *ngFor="let calendar of calendarGroup.calendars"

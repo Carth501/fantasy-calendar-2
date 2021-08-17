@@ -1,0 +1,17 @@
+@mixin calendar-selector-typography($config) {
+  .page-title {
+    @include mat-typography-level-to-styles($config, title);
+  }
+  .page-subtitle {
+    @include mat-typography-level-to-styles($config, caption);
+  }
+}
+@mixin calendar-selector-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  .page-title {
+    color: mat-color($foreground, text);
+  }
+  .page-subtitle {
+    color: mat-color($foreground, text);
+  }
+}
