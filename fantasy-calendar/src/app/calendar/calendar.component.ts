@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Calendar } from 'src/models/Calendar';
+import { CalculatorService } from '../services/calculator/calculator.service';
 
 @Component({
   selector: 'app-calendar',
@@ -8,12 +9,31 @@ import { Calendar } from 'src/models/Calendar';
 })
 export class CalendarComponent implements OnInit {
   _calendar!: Calendar;
-  @Input() set calendar(calendar: Calendar) {
-    this._calendar = calendar;
-  }
-  @Input() dayID!: number;
+  _dayID!: number;
+  _year!: number;
+  _dayOfYear!: number;
 
-  constructor() {}
+  @Input() set intakeCalendar(calendar: Calendar) {
+    this._calendar = calendar;
+    this.calculateYear();
+  }
+
+  @Input() set intakeDayID(dayID: number) {
+    this._dayID = dayID;
+    this.calculateYear();
+  }
+  constructor(private calculator: CalculatorService) {}
 
   ngOnInit(): void {}
+
+  calculateYear(): void {
+    if (this._calendar != null && this._dayID) {
+      const yearData = this.calculator.calculateYear(
+        this._calendar,
+        this._dayID
+      );
+      this._year = yearData[0];
+      this._dayOfYear = yearData[1];
+    }
+  }
 }

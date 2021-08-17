@@ -14,7 +14,6 @@ export class CalendarSelectorComponent implements OnInit {
   calendarGroup = {
     calendars: [
       {
-        id: 0,
         title: 'Gregorian Calendar',
         daysOfWeek: [
           'Monday',
@@ -89,7 +88,6 @@ export class CalendarSelectorComponent implements OnInit {
         ],
       },
       {
-        id: 1,
         title: 'Gregorian Calendar 2',
         daysOfWeek: [
           'Monday',
@@ -164,7 +162,7 @@ export class CalendarSelectorComponent implements OnInit {
         ],
       },
     ],
-    dayID: 10,
+    dayID: 737500,
   };
 
   constructor() {
