@@ -29,6 +29,7 @@ export class CalendarComponent implements OnInit {
     if (this._calendar != null && this._dayID) {
       const year = this.calculator.calculateYear(this._calendar, this._dayID);
       this._year = year;
+      this._calendar.daysOfWeek;
     }
   }
 }

@@ -1,4 +1,6 @@
+import { Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
 import { Calendar } from 'src/models/Calendar';
 import { CalendarGroup } from 'src/models/CalendarGroup';
 import { Day } from 'src/models/Day';
@@ -159,7 +161,7 @@ export class CalculatorService {
         ],
       },
     ],
-    dayID: 737500,
+    dayID: 737900,
   };
 
   getCalendarGroup(): CalendarGroup {
@@ -203,6 +205,12 @@ export class CalculatorService {
   }
 
   getMonthLength(calendar: Calendar, year: number, month: number): number {
+    //handles months outside of range, adjusts for year accordingly
+    if (month < 0 || month > calendar.months.length) {
+      year += Math.floor(month / calendar.months.length);
+      month = month % calendar.months.length;
+    }
+
     //beware off-by-one error
     let monthLength = calendar.months[month].daysInMonth;
     calendar.months[month].leapDayRules.forEach((rule) => {
@@ -213,25 +221,83 @@ export class CalculatorService {
     return monthLength;
   }
 
-  getMonthArray(calendar: Calendar, dayID: number): Day[] {
-    const month: Day[] = [];
+  getMonthArray(calendar: Calendar, dayID: number): Day[][] {
     const year = this.calculateYear(calendar, dayID);
     const dayOfYear = this.calculateDayOfYear(calendar, dayID);
+    const monthStats = this.findMonth(calendar, year, dayOfYear);
+    const monthNum = monthStats[0];
+    const monthLength = monthStats[1];
+    const dayValue = monthStats[2];
+    const selectedDayOfMonth = monthLength - (dayValue - dayOfYear);
+    const monthStartID = dayID - selectedDayOfMonth;
+    const startingDOW = this.getDOW(calendar, monthStartID);
+    const lastMonthLength = this.getMonthLength(calendar, year, monthNum - 1);
+    let i = 0;
+    const month: Day[][] = [[]];
+    while (i < startingDOW) {
+      const endOfLastMonthID = monthStartID - startingDOW + i;
+      const dayOfMonth = lastMonthLength - startingDOW + i;
+      month[0].push(this.createDay(dayOfMonth, endOfLastMonthID, false, false));
+      i++;
+      console.log('while 2');
+    }
+    let x = 0;
+    let y = 0;
+    while (x < monthLength) {
+      x++;
+      const ID = monthStartID + x;
+      if ((x + i) % calendar.daysOfWeek.length === 0) {
+        console.log('end of week. x = ' + x);
+        y++;
+        month.push([]);
+      }
+      month[y].push(this.createDay(x, ID, true, ID === dayID));
+      console.log('day ' + x);
+    }
+    let z = (x + i) % calendar.daysOfWeek.length;
+    while (z < calendar.daysOfWeek.length) {
+      const ID = monthStartID + x + z;
+      month[y].push(this.createDay(x + z, ID, false, false));
+      z++;
+      console.log('while 4');
+    }
+    return month;
+  }
+
+  createDay(
+    dayOfMonth: number,
+    dayID: number,
+    inActiveMonth: boolean,
+    selectedDay: boolean
+  ): Day {
+    return {
+      dayOfMonth: dayOfMonth,
+      dayID: dayID,
+      events: [],
+      selectedDay: selectedDay,
+      inActiveMonth: inActiveMonth,
+    };
+  }
+
+  findMonth(
+    calendar: Calendar,
+    year: number,
+    dayOfYear: number
+  ): [monthNum: number, monthLength: number, dayValue: number] {
     let dayValue = 0;
     let monthNum = 0;
     let repeat = true;
     let monthLength = 0;
     while (repeat) {
-      monthLength = this.getMonthLength(calendar, year, dayID);
+      monthLength = this.getMonthLength(calendar, year, monthNum);
       dayValue += monthLength;
       if (dayValue < dayOfYear) {
         monthNum++;
       } else {
         repeat = false;
       }
+      console.log('while 1');
     }
-    const dayOfMonth = monthLength - (dayValue - dayOfYear);
-    const startingDOW = this.getDOW();
-    return month;
+    return [monthNum, monthLength, dayValue];
   }
 }
