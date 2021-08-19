@@ -1,6 +1,4 @@
-import { Breakpoints } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
 import { Calendar } from 'src/models/Calendar';
 import { CalendarGroup } from 'src/models/CalendarGroup';
 import { Day } from 'src/models/Day';
@@ -213,7 +211,7 @@ export class CalculatorService {
     return monthLength;
   }
 
-  getMonthArray(calendar: Calendar, dayID: number): Day[][] {
+  getMonth2DArray(calendar: Calendar, dayID: number): Day[][] {
     const year = this.calculateYear(calendar, dayID);
     const dayOfYear = this.calculateDayOfYear(calendar, dayID);
     const monthStats = this.findMonth(calendar, year, dayOfYear);
@@ -247,6 +245,40 @@ export class CalculatorService {
     while (z < calendar.daysOfWeek.length) {
       const ID = monthStartID + x + z;
       month[y].push(this.createDay(x + z, ID, false, false));
+      z++;
+    }
+    return month;
+  }
+
+  getMonthArray(calendar: Calendar, dayID: number): Day[] {
+    const year = this.calculateYear(calendar, dayID);
+    const dayOfYear = this.calculateDayOfYear(calendar, dayID);
+    const monthStats = this.findMonth(calendar, year, dayOfYear);
+    const monthNum = monthStats[0];
+    const monthLength = monthStats[1];
+    const dayValue = monthStats[2];
+    const selectedDayOfMonth = monthLength - (dayValue - dayOfYear);
+    const monthStartID = dayID - selectedDayOfMonth;
+    const startingDOW = this.getDOW(calendar, monthStartID);
+    const lastMonthLength = this.getMonthLength(calendar, year, monthNum - 1);
+    let i = 0;
+    const month: Day[] = [];
+    while (i < startingDOW) {
+      const endOfLastMonthID = monthStartID - startingDOW + i;
+      const dayOfMonth = lastMonthLength - startingDOW + i;
+      month.push(this.createDay(dayOfMonth, endOfLastMonthID, false, false));
+      i++;
+    }
+    let x = 0;
+    while (x < monthLength) {
+      x++;
+      const ID = monthStartID + x;
+      month.push(this.createDay(x, ID, true, ID === dayID));
+    }
+    let z = (x + i) % calendar.daysOfWeek.length;
+    while (z < calendar.daysOfWeek.length) {
+      const ID = monthStartID + x + z;
+      month.push(this.createDay(x + z, ID, false, false));
       z++;
     }
     return month;
@@ -287,4 +319,14 @@ export class CalculatorService {
     }
     return [monthNum, monthLength, dayValue];
   }
+
+  /*
+  getDaysOfWeekValues(calendar: Calendar): string[] {
+    const values: string[] = [];
+    calendar.daysOfWeek.forEach((dow) => {
+      values.push(dow.value);
+    });
+    return values;
+  }
+  */
 }

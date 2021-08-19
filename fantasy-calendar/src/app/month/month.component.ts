@@ -1,4 +1,3 @@
-import { DataSource } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Calendar } from 'src/models/Calendar';
@@ -13,11 +12,11 @@ import { CalculatorService } from '../services/calculator/calculator.service';
 export class MonthComponent implements OnInit {
   _calendar!: Calendar;
   _dayID!: number;
-  _month!: Day[][];
+  _month!: Day[];
   _displayedColumns!: string[];
   _monthName!: string;
   _year!: number;
-  datasource!: MatTableDataSource<Day[]>;
+  datasource!: MatTableDataSource<Day>;
   JSON = JSON;
 
   @Input() set intakeCalendar(calendar: Calendar) {
