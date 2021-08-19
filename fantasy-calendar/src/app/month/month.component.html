@@ -9,7 +9,7 @@
     [matColumnDef]="nameOfDOW"
   >
     <mat-header-cell *matHeaderCellDef> {{ nameOfDOW }} </mat-header-cell>
-    <mat-cell *matCellDef="let day"> {{ day.dayOfMonth }} </mat-cell>
+    <mat-cell *matCellDef="let day"> {{ JSON.stringify(day) }} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="_displayedColumns"></mat-header-row>

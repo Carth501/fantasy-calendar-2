@@ -2,7 +2,5 @@
   <div class="calendar-headline" *ngIf="_calendar != null">
     {{ _calendar.title }}
   </div>
-  <div *ngIf="_dayID != null">{{ _dayID }}</div>
-  <div *ngIf="_year != null">{{ _year }}</div>
   <app-month [intakeCalendar]="_calendar" [intakeDayID]="_dayID"></app-month>
 </div>

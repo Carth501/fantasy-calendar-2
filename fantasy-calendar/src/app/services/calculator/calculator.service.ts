@@ -88,19 +88,11 @@ export class CalculatorService {
       },
       {
         title: 'Gregorian Calendar 2',
-        daysOfWeek: [
-          'Monday',
-          'Tuesday',
-          'Wednesday',
-          'Thursday',
-          'Friday',
-          'Saturday',
-          'Sunday',
-        ],
+        daysOfWeek: ['Monday', 'Tuesday'],
         months: [
           {
             monthName: 'January',
-            daysInMonth: 31,
+            daysInMonth: 5,
             leapDayRules: [],
           },
           {
@@ -239,7 +231,6 @@ export class CalculatorService {
       const dayOfMonth = lastMonthLength - startingDOW + i;
       month[0].push(this.createDay(dayOfMonth, endOfLastMonthID, false, false));
       i++;
-      console.log('while 2');
     }
     let x = 0;
     let y = 0;
@@ -247,19 +238,16 @@ export class CalculatorService {
       x++;
       const ID = monthStartID + x;
       if ((x + i) % calendar.daysOfWeek.length === 0) {
-        console.log('end of week. x = ' + x);
         y++;
         month.push([]);
       }
       month[y].push(this.createDay(x, ID, true, ID === dayID));
-      console.log('day ' + x);
     }
     let z = (x + i) % calendar.daysOfWeek.length;
     while (z < calendar.daysOfWeek.length) {
       const ID = monthStartID + x + z;
       month[y].push(this.createDay(x + z, ID, false, false));
       z++;
-      console.log('while 4');
     }
     return month;
   }
@@ -296,7 +284,6 @@ export class CalculatorService {
       } else {
         repeat = false;
       }
-      console.log('while 1');
     }
     return [monthNum, monthLength, dayValue];
   }

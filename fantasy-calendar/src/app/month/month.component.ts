@@ -1,4 +1,6 @@
+import { DataSource } from '@angular/cdk/collections';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { Calendar } from 'src/models/Calendar';
 import { Day } from 'src/models/Day';
 import { CalculatorService } from '../services/calculator/calculator.service';
@@ -15,6 +17,8 @@ export class MonthComponent implements OnInit {
   _displayedColumns!: string[];
   _monthName!: string;
   _year!: number;
+  datasource!: MatTableDataSource<Day[]>;
+  JSON = JSON;
 
   @Input() set intakeCalendar(calendar: Calendar) {
     this._calendar = calendar;
@@ -34,7 +38,6 @@ export class MonthComponent implements OnInit {
   calculateMonth(): void {
     if (this._calendar != null && this._dayID) {
       this._month = this.calculator.getMonthArray(this._calendar, this._dayID);
-      console.log(this._month);
       this._year = this.calculator.calculateYear(this._calendar, this._dayID);
       const monthStats = this.calculator.findMonth(
         this._calendar,
@@ -43,6 +46,7 @@ export class MonthComponent implements OnInit {
       );
       const monthNum = monthStats[0];
       this._monthName = this._calendar.months[monthNum].monthName;
+      this.datasource = new MatTableDataSource(this._month);
     }
   }
 }

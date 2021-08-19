@@ -3,7 +3,12 @@
     @include mat-typography-level-to-styles($config, title);
   }
   .month {
-    @include mat-typography-level-to-styles($config, body-1);
+    .mat-header-cell {
+      @include mat-typography-level-to-styles($config, subheading-2);
+    }
+    .mat-cell {
+      @include mat-typography-level-to-styles($config, body-2);
+    }
   }
 }
 @mixin month-theme($theme) {
@@ -11,10 +16,11 @@
   .title {
     color: mat-color($foreground, text);
   }
-  .month {
+  .month mat-header-cell.mat-header-cell {
     color: mat-color($foreground, text);
   }
   .mat-cell {
+    color: mat-color($foreground, text);
     border: mat-color($foreground, divider) 2px solid;
   }
 }
