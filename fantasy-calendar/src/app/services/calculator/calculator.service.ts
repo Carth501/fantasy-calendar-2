@@ -13,14 +13,15 @@ export class CalculatorService {
       {
         title: 'Gregorian Calendar',
         daysOfWeek: [
+          'Sunday',
           'Monday',
           'Tuesday',
           'Wednesday',
           'Thursday',
           'Friday',
           'Saturday',
-          'Sunday',
         ],
+        dowOffset: 5,
         months: [
           {
             monthName: 'January',
@@ -30,7 +31,7 @@ export class CalculatorService {
           {
             monthName: 'February',
             daysInMonth: 28,
-            leapDayRules: [],
+            leapDayRules: [{ delta: 1, offset: 0, frequency: 0.25 }],
           },
           {
             monthName: 'March',
@@ -87,6 +88,7 @@ export class CalculatorService {
       {
         title: 'Gregorian Calendar 2',
         daysOfWeek: ['Monday', 'Tuesday'],
+        dowOffset: 1,
         months: [
           {
             monthName: 'January',
@@ -151,7 +153,7 @@ export class CalculatorService {
         ],
       },
     ],
-    dayID: 737900,
+    dayID: 738401,
   };
 
   getCalendarGroup(): CalendarGroup {
@@ -191,17 +193,16 @@ export class CalculatorService {
   }
 
   getDOW(calendar: Calendar, dayID: number): number {
-    return dayID % calendar.daysOfWeek.length;
+    return (dayID % calendar.daysOfWeek.length) + calendar.dowOffset;
   }
 
   getMonthLength(calendar: Calendar, year: number, month: number): number {
     //handles months outside of range, adjusts for year accordingly
-    if (month < 0 || month > calendar.months.length) {
+    while (month < 0 || month > calendar.months.length) {
       year += Math.floor(month / calendar.months.length);
-      month = month % calendar.months.length;
+      month = month + calendar.months.length;
     }
 
-    //beware off-by-one error
     let monthLength = calendar.months[month].daysInMonth;
     calendar.months[month].leapDayRules.forEach((rule) => {
       if ((year - rule.offset) % (1 / rule.frequency) === 0) {
@@ -224,19 +225,21 @@ export class CalculatorService {
     const lastMonthLength = this.getMonthLength(calendar, year, monthNum - 1);
     let i = 0;
     const month: Day[][] = [[]];
-    while (i < startingDOW) {
-      const endOfLastMonthID = monthStartID - startingDOW + i;
-      const dayOfMonth = lastMonthLength - startingDOW + i;
-      month[0].push({
-        dayOfMonth: dayOfMonth + 1,
-        dayID: endOfLastMonthID,
-        events: [],
-        selectedDay: false,
-        inActiveMonth: false,
-        i: i,
-      });
-      //this.createDay(dayOfMonth, endOfLastMonthID, false, false)
-      i++;
+    if (startingDOW % calendar.daysOfWeek.length != 0) {
+      while (i < startingDOW) {
+        const endOfLastMonthID = monthStartID - startingDOW + i;
+        const dayOfMonth = lastMonthLength - startingDOW + i;
+        month[0].push({
+          dayOfMonth: dayOfMonth + 1,
+          dayID: endOfLastMonthID,
+          events: [],
+          selectedDay: false,
+          inActiveMonth: false,
+          i: i,
+        });
+        //this.createDay(dayOfMonth, endOfLastMonthID, false, false)
+        i++;
+      }
     }
     let x = 0;
     let y = 0;
@@ -263,24 +266,26 @@ export class CalculatorService {
       //this.createDay(x, ID, true, ID === dayID)
     }
     let DOW = (x + i) % calendar.daysOfWeek.length;
-    let z = 0;
-    while (DOW < calendar.daysOfWeek.length) {
-      const ID = monthStartID + x + z;
-      month[y].push({
-        dayOfMonth: z + 1,
-        dayID: ID,
-        events: [],
-        selectedDay: false,
-        inActiveMonth: false,
-        i: i,
-        x: x,
-        y: y,
-        z: z,
-        dow: DOW,
-      });
-      //this.createDay(z, ID, false, false)
-      z++;
-      DOW++;
+    if (DOW > 0) {
+      let z = 0;
+      while (DOW < calendar.daysOfWeek.length) {
+        const ID = monthStartID + x + z;
+        month[y].push({
+          dayOfMonth: z + 1,
+          dayID: ID,
+          events: [],
+          selectedDay: false,
+          inActiveMonth: false,
+          i: i,
+          x: x,
+          y: y,
+          z: z,
+          dow: DOW,
+        });
+        //this.createDay(z, ID, false, false)
+        z++;
+        DOW++;
+      }
     }
     return month;
   }
@@ -312,7 +317,7 @@ export class CalculatorService {
     while (repeat) {
       monthLength = this.getMonthLength(calendar, year, monthNum);
       dayValue += monthLength;
-      if (dayValue < dayOfYear) {
+      if (dayValue <= dayOfYear) {
         monthNum++;
       } else {
         repeat = false;
