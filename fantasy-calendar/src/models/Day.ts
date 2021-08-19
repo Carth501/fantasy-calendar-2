@@ -4,4 +4,9 @@ export interface Day {
   events: Event[];
   selectedDay: boolean;
   inActiveMonth: boolean;
+  i?: number;
+  x?: number;
+  y?: number;
+  z?: number;
+  dow?: number;
 }

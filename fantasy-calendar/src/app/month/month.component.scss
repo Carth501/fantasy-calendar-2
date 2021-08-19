@@ -11,3 +11,24 @@
   width: 100%;
   text-align: center;
 }
+
+.calendarRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  .cells {
+    flex: 1;
+    border: 2px solid;
+    text-align: center;
+    &.day {
+      &.selected {
+        background-color: red;
+      }
+      &.out-of-range {
+        background-color: gray;
+      }
+    }
+  }
+}

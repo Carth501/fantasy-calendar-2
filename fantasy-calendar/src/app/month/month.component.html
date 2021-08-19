@@ -2,16 +2,20 @@
   {{ _year }}
   {{ _monthName }}
 </div>
-<mat-table [dataSource]="_month" class="month">
-  <!-- Position Column -->
-  <ng-container
-    *ngFor="let nameOfDOW of _calendar.daysOfWeek"
-    [matColumnDef]="nameOfDOW"
-  >
-    <mat-header-cell *matHeaderCellDef> {{ nameOfDOW }} </mat-header-cell>
-    <mat-cell *matCellDef="let day"> {{ day.dayOfMonth }} </mat-cell>
-  </ng-container>
 
-  <mat-header-row *matHeaderRowDef="_displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: _displayedColumns"></mat-row>
-</mat-table>
+<div class="calendarRow">
+  <div *ngFor="let name of _dowNames" class="cells">{{ name }}</div>
+</div>
+<div *ngFor="let week of _month" class="calendarRow">
+  <div
+    *ngFor="let day of week"
+    [ngClass]="{
+      cells: true,
+      day: true,
+      selected: day.selectedDay,
+      'out-of-range': !day.inActiveMonth
+    }"
+  >
+    {{ day.dayOfMonth }}
+  </div>
+</div>
