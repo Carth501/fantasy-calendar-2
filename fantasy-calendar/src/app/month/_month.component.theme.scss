@@ -1,5 +1,5 @@
 @mixin month-typography($config) {
-  .title {
+  .controls {
     @include mat-typography-level-to-styles($config, title);
   }
   .month {

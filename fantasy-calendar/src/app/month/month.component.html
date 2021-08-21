@@ -1,6 +1,22 @@
-<div class="title">
-  {{ _year }}
-  {{ _monthName }}
+<div class="controls">
+  <div class="year">
+    <button color="primary" mat-raised-button (click)="changeYear(-1)">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    {{ _year }}
+    <button color="primary" mat-raised-button (click)="changeYear(1)">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+  <div class="month">
+    <button color="primary" mat-raised-button (click)="changeMonth(-1)">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    {{ _monthName }}
+    <button color="primary" mat-raised-button (click)="changeMonth(1)">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
 </div>
 
 <div class="calendarRow">

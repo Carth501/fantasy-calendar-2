@@ -7,8 +7,12 @@
     justify-content: center;
   }
 }
-.title {
+
+.controls {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  padding-top: 10px;
   text-align: center;
 }
 
@@ -31,4 +35,10 @@
       }
     }
   }
+}
+
+button mat-icon {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
 }

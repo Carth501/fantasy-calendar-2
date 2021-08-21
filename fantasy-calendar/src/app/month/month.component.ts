@@ -14,13 +14,13 @@ export class MonthComponent implements OnInit {
   _month!: Day[][];
   _dowNames!: string[];
   _monthName!: string;
+  _monthNumber!: number;
   _year!: number;
   JSON = JSON;
 
   @Input() set intakeCalendar(calendar: Calendar) {
     this._calendar = calendar;
     this._dowNames = this._calendar.daysOfWeek;
-    console.log(this._dowNames);
     this.calculateMonth();
   }
 
@@ -35,7 +35,7 @@ export class MonthComponent implements OnInit {
 
   calculateMonth(): void {
     if (this._calendar != null && this._dayID) {
-      this._month = this.calculator.getMonth2DArray(
+      this._month = this.calculator.getMonth2DArrayByDayID(
         this._calendar,
         this._dayID
       );
@@ -45,8 +45,42 @@ export class MonthComponent implements OnInit {
         this._year,
         this.calculator.calculateDayOfYear(this._calendar, this._dayID)
       );
-      const monthNum = monthStats[0];
-      this._monthName = this._calendar.months[monthNum].monthName;
+      this._monthNumber = monthStats[0];
+      this._monthName = this._calendar.months[this._monthNumber].monthName;
     }
+  }
+
+  changeMonth(delta: number): void {
+    this._monthNumber += delta;
+    if (this._monthNumber < 0) {
+      this._year--;
+      this._monthNumber = this._calendar.months.length - 1;
+    } else if (this._monthNumber >= this._calendar.months.length) {
+      this._year++;
+      this._monthNumber = 0;
+    }
+    this._month = this.calculator.getMonth2DArray(
+      this._calendar,
+      this._monthNumber,
+      this._year,
+      this._dayID
+    );
+    if (
+      this._monthNumber < 0 ||
+      this._monthNumber >= this._calendar.months.length
+    ) {
+      throw '_monthNumber is out of range! _monthNumber = ' + this._monthNumber;
+    }
+    this._monthName = this._calendar.months[this._monthNumber].monthName;
+  }
+
+  changeYear(delta: number): void {
+    this._year += delta;
+    this._month = this.calculator.getMonth2DArray(
+      this._calendar,
+      this._monthNumber,
+      this._year,
+      this._dayID
+    );
   }
 }
