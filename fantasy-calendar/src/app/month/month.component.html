@@ -1,0 +1,43 @@
+<div class="controls">
+  <div class="year">
+    <button color="primary" mat-raised-button (click)="changeYear(-1)">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    {{ _year }}
+    <button color="primary" mat-raised-button (click)="changeYear(1)">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+  <div class="month">
+    <button color="primary" mat-raised-button (click)="changeMonth(-1)">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    {{ _monthName }}
+    <button color="primary" mat-raised-button (click)="changeMonth(1)">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="calendarRow">
+  <div *ngFor="let name of _dowNames" class="cells">{{ name }}</div>
+</div>
+<div *ngFor="let week of _month" class="calendarRow">
+  <div
+    *ngFor="let day of week"
+    [ngClass]="{
+      cells: true,
+      day: true,
+      selected: day.selectedDay,
+      'out-of-range': !day.inActiveMonth
+    }"
+  >
+    {{ day.dayOfMonth }}
+    <div>id = {{ day.dayID }}</div>
+    <div>i = {{ day.i }}</div>
+    <div>x = {{ day.x }}</div>
+    <div>y = {{ day.y }}</div>
+    <div>z = {{ day.z }}</div>
+    <div>dow = {{ day.dow }}</div>
+  </div>
+</div>

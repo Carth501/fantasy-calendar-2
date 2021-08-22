@@ -1,0 +1,11 @@
+@mixin calendar-typography($config) {
+  .calendar-headline {
+    @include mat-typography-level-to-styles($config, headline);
+  }
+}
+@mixin calendar-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  .calendar-headline {
+    color: mat-color($foreground, text);
+  }
+}

@@ -1,0 +1,17 @@
+@import "styles/variables/material.scss";
+@import "app/calendar/calendar.component.theme";
+@import "app/month/month.component.theme";
+@import "app/calendar-selector/calendar-selector.component.theme";
+
+body {
+  margin: 10px;
+}
+
+@include calendar-selector-typography($fontConfig);
+@include calendar-selector-theme($theme);
+
+@include calendar-typography($fontConfig);
+@include calendar-theme($theme);
+
+@include month-typography($fontConfig);
+@include month-theme($theme);

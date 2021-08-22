@@ -1,0 +1,6 @@
+<div>
+  <div class="calendar-headline" *ngIf="_calendar != null">
+    {{ _calendar.title }}
+  </div>
+  <app-month [intakeCalendar]="_calendar" [intakeDayID]="_dayID"></app-month>
+</div>
