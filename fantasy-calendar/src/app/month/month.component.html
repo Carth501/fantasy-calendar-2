@@ -19,25 +19,27 @@
   </div>
 </div>
 
-<div class="calendarRow">
-  <div *ngFor="let name of _dowNames" class="cells">{{ name }}</div>
+<div class="calendar-row">
+  <div *ngFor="let name of _dowNames" class="cell dow-names">{{ name }}</div>
 </div>
-<div *ngFor="let week of _month" class="calendarRow">
+<div *ngFor="let week of _month" class="calendar-row">
   <div
     *ngFor="let day of week"
     [ngClass]="{
-      cells: true,
+      cell: true,
       day: true,
       selected: day.selectedDay,
       'out-of-range': !day.inActiveMonth
     }"
   >
     {{ day.dayOfMonth }}
-    <div>id = {{ day.dayID }}</div>
-    <div>i = {{ day.i }}</div>
-    <div>x = {{ day.x }}</div>
-    <div>y = {{ day.y }}</div>
-    <div>z = {{ day.z }}</div>
-    <div>dow = {{ day.dow }}</div>
+    <div *ngIf="debugMode">
+      <div>id = {{ day.dayID }}</div>
+      <div>i = {{ day.i }}</div>
+      <div>x = {{ day.x }}</div>
+      <div>y = {{ day.y }}</div>
+      <div>z = {{ day.z }}</div>
+      <div>dow = {{ day.dow }}</div>
+    </div>
   </div>
 </div>

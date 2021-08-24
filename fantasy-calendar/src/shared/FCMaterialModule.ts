@@ -1,24 +1,30 @@
 import { NgModule } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
-    MatFormFieldModule,
-    MatSelectModule,
-    MatTableModule,
-    MatIconModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    ReactiveFormsModule,
   ],
   exports: [
-    MatFormFieldModule,
-    MatSelectModule,
-    MatTableModule,
-    MatIconModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    ReactiveFormsModule,
   ],
 })
 export class FCMaterialModule {}
