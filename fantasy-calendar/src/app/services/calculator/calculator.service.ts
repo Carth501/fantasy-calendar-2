@@ -86,149 +86,83 @@ export class CalculatorService {
         ],
       },
       {
-        title: 'Gregorian Calendar 2',
-        daysOfWeek: ['Monday', 'Tuesday'],
-        dowOffset: 1,
-        months: [
-          {
-            monthName: 'January',
-            daysInMonth: 5,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'February',
-            daysInMonth: 28,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'March',
-            daysInMonth: 31,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'April',
-            daysInMonth: 30,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'May',
-            daysInMonth: 31,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'June',
-            daysInMonth: 30,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'July',
-            daysInMonth: 31,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'August',
-            daysInMonth: 31,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'September',
-            daysInMonth: 30,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'October',
-            daysInMonth: 31,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'November',
-            daysInMonth: 30,
-            leapDayRules: [],
-          },
-          {
-            monthName: 'December',
-            daysInMonth: 31,
-            leapDayRules: [],
-          },
-        ],
-      },
-      {
-        title: 'Gregorian Calendar 3',
+        title: 'Hanke-Henry Permanent Calendar',
         daysOfWeek: [
-          'Sunday',
           'Monday',
           'Tuesday',
           'Wednesday',
           'Thursday',
           'Friday',
           'Saturday',
+          'Sunday',
         ],
-        dowOffset: 1,
+        dowOffset: 0,
         months: [
           {
             monthName: 'January',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'February',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'March',
-            daysInMonth: 2,
+            daysInMonth: 31,
             leapDayRules: [],
           },
           {
             monthName: 'April',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'May',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'June',
-            daysInMonth: 2,
+            daysInMonth: 31,
             leapDayRules: [],
           },
           {
             monthName: 'July',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'August',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'September',
-            daysInMonth: 2,
+            daysInMonth: 31,
             leapDayRules: [],
           },
           {
             monthName: 'October',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'November',
-            daysInMonth: 2,
+            daysInMonth: 30,
             leapDayRules: [],
           },
           {
             monthName: 'December',
-            daysInMonth: 2,
-            leapDayRules: [],
+            daysInMonth: 31,
+            leapDayRules: [{ delta: 7, offset: 0, frequency: 0.1785714285714286 }],
           },
         ],
       },
     ],
-    dayID: 738402,
+    dayID: 738422,
+    //dayID: 1,
   };
 
   getCalendarGroup(): CalendarGroup {
@@ -243,28 +177,53 @@ export class CalculatorService {
     return titles;
   }
 
-  calculateYear(calendar: Calendar, dayID: number): number {
-    const avgYear = this.dayAverage(calendar);
-    const year = Math.floor(dayID / avgYear);
-    return year;
+  calculateYear(calendar: Calendar, dayID: number): [number, number] {
+    let year = 0;
+    let i = 1;
+    let remainder = 0;
+    if (dayID > 0) {
+      while (i < dayID) {
+        let x = this.calculateYearLength(calendar, year);
+        i += x;
+        if (!(i < dayID)) {
+          remainder = x - (i - dayID);
+        } else {
+          year++;
+        }
+      }
+    } else {
+      while (i > dayID) {
+        i -= this.calculateYearLength(calendar, year);
+        year--;
+        if (!(i < dayID)) {
+          remainder = i - dayID;
+        }
+      }
+    }
+    return [year, remainder];
   }
 
-  calculateDayOfYear(calendar: Calendar, dayID: number): number {
-    const avgYear = this.dayAverage(calendar);
-    const dayOfYear = Math.floor(dayID % avgYear);
-    return dayOfYear;
+  calculateYearStartDayID(calendar: Calendar, year: number) {
+    let dayID = 0;
+    let x = 0;
+    while (x < year) {
+      dayID += this.calculateYearLength(calendar, x);
+      x++;
+    }
+    return dayID;
   }
 
-  dayAverage(calendar: Calendar): number {
-    let sum = 0;
+  calculateYearLength(calendar: Calendar, year: number): number {
+    let length = 0;
     calendar.months.forEach((month) => {
-      let leapDayRuleAverage = 0;
+      length += month.daysInMonth;
       month.leapDayRules.forEach((rule) => {
-        leapDayRuleAverage += rule.delta * rule.frequency;
+        if ((year + rule.offset) % (1 / rule.frequency) < 1) {
+          length += rule.delta;
+        }
       });
-      sum += month.daysInMonth + leapDayRuleAverage;
     });
-    return sum;
+    return length;
   }
 
   getDOW(calendar: Calendar, dayID: number): number {
@@ -289,8 +248,9 @@ export class CalculatorService {
 
     let monthLength = calendar.months[month].daysInMonth;
     calendar.months[month].leapDayRules.forEach((rule) => {
-      if ((year + rule.offset) % (1 / rule.frequency) === 0) {
+      if ((year + rule.offset) % (1 / rule.frequency) < 1) {
         monthLength += rule.delta;
+        console.log(monthLength);
       }
     });
     return monthLength;
@@ -302,8 +262,7 @@ export class CalculatorService {
     year: number,
     dayID: number
   ): Day[][] {
-    const avgYear = this.dayAverage(calendar);
-    const startOfYearID = Math.ceil(avgYear * year);
+    const startOfYearID = this.calculateYearStartDayID(calendar, year);
     let x = 0;
     let startOfMonthID = startOfYearID;
     while (x < monthNum) {
@@ -332,8 +291,9 @@ export class CalculatorService {
   }
 
   getMonth2DArrayByDayID(calendar: Calendar, dayID: number): Day[][] {
-    const year = this.calculateYear(calendar, dayID);
-    const dayOfYear = this.calculateDayOfYear(calendar, dayID);
+    const yearData = this.calculateYear(calendar, dayID);
+    const year = yearData[0];
+    const dayOfYear = yearData[1];
     const monthStats = this.findMonth(calendar, year, dayOfYear);
     const monthNum = monthStats[0];
     const monthLength = monthStats[1];
