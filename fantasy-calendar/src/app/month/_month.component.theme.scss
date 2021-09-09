@@ -2,25 +2,32 @@
   .controls {
     @include mat-typography-level-to-styles($config, title);
   }
-  .month {
-    .mat-header-cell {
-      @include mat-typography-level-to-styles($config, subheading-2);
-    }
-    .mat-cell {
-      @include mat-typography-level-to-styles($config, body-2);
-    }
+  .dow-names {
+    @include mat-typography-level-to-styles($config, subheading-2);
+  }
+  .cell {
+    @include mat-typography-level-to-styles($config, body-2);
   }
 }
 @mixin month-theme($theme) {
   $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
   .title {
     color: mat-color($foreground, text);
   }
-  .month mat-header-cell.mat-header-cell {
+  .dow-names {
     color: mat-color($foreground, text);
+    background-color: mat-color($primary, lighter);
   }
-  .mat-cell {
+  .cell {
     color: mat-color($foreground, text);
     border: mat-color($foreground, divider) 2px solid;
+  }
+  .out-of-range {
+    background-color: mat-color($accent, 200);
+  }
+  .selected {
+    background-color: mat-color($primary, 200);
   }
 }

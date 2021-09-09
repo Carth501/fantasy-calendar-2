@@ -16,23 +16,18 @@
   text-align: center;
 }
 
-.calendarRow {
+.calendar-row {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
   width: 100%;
-  .cells {
+  .cell {
     flex: 1;
     border: 2px solid;
     text-align: center;
     &.day {
-      &.selected {
-        background-color: red;
-      }
-      &.out-of-range {
-        background-color: gray;
-      }
+      min-height: 100px;
     }
   }
 }

@@ -1,6 +1,6 @@
 <div>
-  <div class="calendar-headline" *ngIf="_calendar != null">
-    {{ _calendar.title }}
+  <div class="calendar-headline" *ngIf="calendar != null">
+    {{ calendar.title }}
   </div>
-  <app-month [intakeCalendar]="_calendar" [intakeDayID]="_dayID"></app-month>
+  <app-month [intakeCalendar]="calendar" [intakeDayID]="dayID"></app-month>
 </div>

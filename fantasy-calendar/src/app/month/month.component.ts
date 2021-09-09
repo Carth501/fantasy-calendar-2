@@ -17,6 +17,7 @@ export class MonthComponent implements OnInit {
   _monthNumber!: number;
   _year!: number;
   JSON = JSON;
+  debugMode: boolean = true;
 
   @Input() set intakeCalendar(calendar: Calendar) {
     this._calendar = calendar;
@@ -35,18 +36,24 @@ export class MonthComponent implements OnInit {
 
   calculateMonth(): void {
     if (this._calendar != null && this._dayID) {
-      this._month = this.calculator.getMonth2DArrayByDayID(
+      const yearData = this.calculator.calculateYear(
         this._calendar,
         this._dayID
       );
-      this._year = this.calculator.calculateYear(this._calendar, this._dayID);
+      this._year = yearData[0];
       const monthStats = this.calculator.findMonth(
         this._calendar,
         this._year,
-        this.calculator.calculateDayOfYear(this._calendar, this._dayID)
+        yearData[1]
       );
       this._monthNumber = monthStats[0];
       this._monthName = this._calendar.months[this._monthNumber].monthName;
+      this._month = this.calculator.getMonth2DArray(
+        this._calendar,
+        this._monthNumber,
+        this._year,
+        this._dayID
+      );
     }
   }
 
