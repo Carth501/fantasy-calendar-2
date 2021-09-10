@@ -11,6 +11,7 @@ import { CalculatorService } from '../services/calculator/calculator.service';
 export class MonthComponent implements OnInit {
   _calendar!: Calendar;
   _dayID!: number;
+  _univDayID!: number;
   _month!: Day[][];
   _dowNames!: string[];
   _monthName!: string;
@@ -26,7 +27,7 @@ export class MonthComponent implements OnInit {
   }
 
   @Input() set intakeDayID(dayID: number) {
-    this._dayID = dayID;
+    this._univDayID = dayID;
     this.calculateMonth();
   }
 
@@ -35,7 +36,8 @@ export class MonthComponent implements OnInit {
   ngOnInit(): void {}
 
   calculateMonth(): void {
-    if (this._calendar != null && this._dayID) {
+    if (this._calendar != null && this._univDayID) {
+      this._dayID = this._univDayID + this._calendar.offsetDayID;
       const yearData = this.calculator.calculateYear(
         this._calendar,
         this._dayID

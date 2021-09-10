@@ -31,7 +31,7 @@ export class CalculatorService {
           {
             monthName: 'February',
             daysInMonth: 28,
-            leapDayRules: [{ delta: 1, offset: 0, frequency: 0.25 }],
+            leapDayRules: [{ delta: 1, offset: 3, frequency: 0.24 }],
           },
           {
             monthName: 'March',
@@ -84,6 +84,7 @@ export class CalculatorService {
             leapDayRules: [],
           },
         ],
+        offsetDayID: 0,
       },
       {
         title: 'Hanke-Henry Permanent Calendar',
@@ -156,12 +157,13 @@ export class CalculatorService {
           {
             monthName: 'December',
             daysInMonth: 31,
-            leapDayRules: [{ delta: 7, offset: 0, frequency: 0.1785714285714286 }],
+            leapDayRules: [{ delta: 7, offset: 0, frequency: 0.1771428571428571 }],
           },
         ],
+        offsetDayID: -3,
       },
     ],
-    dayID: 738422,
+    //dayID: 738422,
     //dayID: 1,
   };
 
@@ -250,7 +252,6 @@ export class CalculatorService {
     calendar.months[month].leapDayRules.forEach((rule) => {
       if ((year + rule.offset) % (1 / rule.frequency) < 1) {
         monthLength += rule.delta;
-        console.log(monthLength);
       }
     });
     return monthLength;
