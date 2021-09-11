@@ -104,4 +104,14 @@ export class MonthComponent implements OnInit {
     );
     this._monthName = this._calendar.months[this._monthNumber].monthName;
   }
+
+  setYear(year: number): void {
+    this._year = year;
+    this._month = this.calculator.getMonth2DArray(
+      this._calendar,
+      this._monthNumber,
+      this._year,
+      this._dayID
+    );
+  }
 }
