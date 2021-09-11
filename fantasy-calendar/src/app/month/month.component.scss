@@ -1,26 +1,58 @@
-.month {
-  width: 100%;
-  .mat-header-cell {
-    justify-content: center;
-  }
-  .mat-cell {
-    justify-content: center;
-  }
+.mat-header-cell {
+  justify-content: center;
+}
+.mat-cell {
+  justify-content: center;
 }
 
 .controls {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 10px;
-  text-align: center;
+  align-items: center;
+  .month-controls { 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    margin-bottom: 10px;
+    margin: 5px;
+    .month-drop-down {
+      flex-grow: 2;
+      text-align: center;
+      .month-selection{
+        text-align: center;
+      }
+    }
+  }
+  .year-label{
+    flex-grow: 2;
+    text-align: center;
+  }
+  .year-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    margin-bottom: 10px;
+    margin: 5px;
+  }
+
+  .change-control {
+    flex-grow: 1;
+    mat-icon.mat-icon {
+      vertical-align: top;
+    }
+  }
 }
 
 .calendar-row {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
   .cell {
     flex: 1;
@@ -32,8 +64,10 @@
   }
 }
 
-button mat-icon {
-  display: flex;
-  align-items: center;
-  margin-left: 4px;
+button.change-control {
+  max-width: 100px;
+}
+
+.mat-select-panel .mat-option {
+  height: unset;
 }
