@@ -1,19 +1,27 @@
 <div class="controls">
-  <div class="year">
-    <button color="primary" mat-raised-button (click)="changeYear(-1)">
+  <div class="year-controls">
+    <button color="primary" mat-raised-button (click)="changeYear(-1)" class="change-control">
       <mat-icon>chevron_left</mat-icon>
     </button>
-    {{ _year }}
-    <button color="primary" mat-raised-button (click)="changeYear(1)">
+    <div class="year-label direct-control">
+      <input type="number" matInput [(ngModel)]="_year" (change)="setYear(_year)">
+    </div>
+    <button color="primary" mat-raised-button (click)="changeYear(1)" class="change-control">
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>
-  <div class="month">
-    <button color="primary" mat-raised-button (click)="changeMonth(-1)">
+  <div class="month-controls">
+    <button color="primary" mat-raised-button (click)="changeMonth(-1)" class="change-control">
       <mat-icon>chevron_left</mat-icon>
     </button>
-    {{ _monthName }}
-    <button color="primary" mat-raised-button (click)="changeMonth(1)">
+    <mat-select (selectionChange)="setMonth($event)" class="month-drop-down direct-control" [value]="_monthNumber">
+      <mat-option 
+      *ngFor="let month of _calendar.months;let indexOfElement=index" 
+      [value]="indexOfElement" class="month-selection">
+        {{month.monthName}}
+      </mat-option>
+    </mat-select>
+    <button color="primary" mat-raised-button (click)="changeMonth(1)" class="change-control">
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>
@@ -32,7 +40,14 @@
       'out-of-range': !day.inActiveMonth
     }"
   >
-    {{ day.dayOfMonth }}
+    <div class="day-of-month-number">
+      {{ day.dayOfMonth }}
+    </div>
+    <div class="day-event-list">
+      <div class="day-event">
+
+      </div>
+    </div>
     <div *ngIf="debugMode">
       <div>id = {{ day.dayID }}</div>
       <div>i = {{ day.i }}</div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Calendar } from 'src/models/Calendar';
 import { Day } from 'src/models/Day';
 import { CalculatorService } from '../services/calculator/calculator.service';
@@ -7,6 +7,7 @@ import { CalculatorService } from '../services/calculator/calculator.service';
   selector: 'app-month',
   templateUrl: './month.component.html',
   styleUrls: ['./month.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MonthComponent implements OnInit {
   _calendar!: Calendar;
@@ -18,7 +19,7 @@ export class MonthComponent implements OnInit {
   _monthNumber!: number;
   _year!: number;
   JSON = JSON;
-  debugMode: boolean = true;
+  debugMode: boolean = false;
 
   @Input() set intakeCalendar(calendar: Calendar) {
     this._calendar = calendar;
@@ -85,6 +86,27 @@ export class MonthComponent implements OnInit {
 
   changeYear(delta: number): void {
     this._year += delta;
+    this._month = this.calculator.getMonth2DArray(
+      this._calendar,
+      this._monthNumber,
+      this._year,
+      this._dayID
+    );
+  }
+
+  setMonth(event: { value: number; }): void {
+    this._monthNumber = event.value;
+    this._month = this.calculator.getMonth2DArray(
+      this._calendar,
+      this._monthNumber,
+      this._year,
+      this._dayID
+    );
+    this._monthName = this._calendar.months[this._monthNumber].monthName;
+  }
+
+  setYear(year: number): void {
+    this._year = year;
     this._month = this.calculator.getMonth2DArray(
       this._calendar,
       this._monthNumber,

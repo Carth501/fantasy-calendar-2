@@ -1,12 +1,18 @@
 @mixin month-typography($config) {
   .controls {
     @include mat-typography-level-to-styles($config, title);
+    .month-drop-down{
+      @include mat-typography-level-to-styles($config, title);
+    }
   }
   .dow-names {
     @include mat-typography-level-to-styles($config, subheading-2);
   }
   .cell {
     @include mat-typography-level-to-styles($config, body-2);
+  }
+  .mat-option-text {
+    @include mat-typography-level-to-styles($config, title);
   }
 }
 @mixin month-theme($theme) {
