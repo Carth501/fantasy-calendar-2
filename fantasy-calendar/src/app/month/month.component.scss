@@ -51,9 +51,12 @@
 .calendar-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
   align-items: stretch;
   width: 100%;
+  .day-of-month-number {
+    padding: 6px;
+    text-align: left;
+  }
   .cell {
     flex: 1;
     border: 2px solid;

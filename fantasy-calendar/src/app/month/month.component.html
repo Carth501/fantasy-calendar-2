@@ -40,7 +40,14 @@
       'out-of-range': !day.inActiveMonth
     }"
   >
-    {{ day.dayOfMonth }}
+    <div class="day-of-month-number">
+      {{ day.dayOfMonth }}
+    </div>
+    <div class="day-event-list">
+      <div class="day-event">
+
+      </div>
+    </div>
     <div *ngIf="debugMode">
       <div>id = {{ day.dayID }}</div>
       <div>i = {{ day.i }}</div>

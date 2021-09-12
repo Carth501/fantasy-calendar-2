@@ -19,7 +19,7 @@ export class MonthComponent implements OnInit {
   _monthNumber!: number;
   _year!: number;
   JSON = JSON;
-  debugMode: boolean = true;
+  debugMode: boolean = false;
 
   @Input() set intakeCalendar(calendar: Calendar) {
     this._calendar = calendar;
