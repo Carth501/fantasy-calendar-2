@@ -44,8 +44,8 @@
       {{ day.dayOfMonth }}
     </div>
     <div class="day-event-list">
-      <div class="day-event">
-
+      <div class="day-event" *ngFor="let event of day.events">
+        {{event.title}}
       </div>
     </div>
     <div *ngIf="debugMode">

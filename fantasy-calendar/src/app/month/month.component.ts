@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Calendar } from 'src/models/Calendar';
 import { Day } from 'src/models/Day';
+import { Incident } from 'src/models/Events/Incident';
 import { CalculatorService } from '../services/calculator/calculator.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class MonthComponent implements OnInit {
   _monthName!: string;
   _monthNumber!: number;
   _year!: number;
+  @Input() incidentList!: Incident[];
   JSON = JSON;
   debugMode: boolean = false;
 
@@ -55,7 +57,8 @@ export class MonthComponent implements OnInit {
         this._calendar,
         this._monthNumber,
         this._year,
-        this._dayID
+        this._dayID,
+        this.incidentList
       );
     }
   }
@@ -73,7 +76,8 @@ export class MonthComponent implements OnInit {
       this._calendar,
       this._monthNumber,
       this._year,
-      this._dayID
+      this._dayID,
+      this.incidentList
     );
     if (
       this._monthNumber < 0 ||
@@ -90,7 +94,8 @@ export class MonthComponent implements OnInit {
       this._calendar,
       this._monthNumber,
       this._year,
-      this._dayID
+      this._dayID,
+      this.incidentList
     );
   }
 
@@ -100,7 +105,8 @@ export class MonthComponent implements OnInit {
       this._calendar,
       this._monthNumber,
       this._year,
-      this._dayID
+      this._dayID,
+      this.incidentList
     );
     this._monthName = this._calendar.months[this._monthNumber].monthName;
   }
@@ -111,7 +117,8 @@ export class MonthComponent implements OnInit {
       this._calendar,
       this._monthNumber,
       this._year,
-      this._dayID
+      this._dayID,
+      this.incidentList
     );
   }
 }

@@ -2,5 +2,5 @@
   <div class="calendar-headline" *ngIf="calendar != null">
     {{ calendar.title }}
   </div>
-  <app-month [intakeCalendar]="calendar" [intakeDayID]="_dayID"></app-month>
+  <app-month [intakeCalendar]="calendar" [intakeDayID]="_dayID" [incidentList]="incidentList"></app-month>
 </div>

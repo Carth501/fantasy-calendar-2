@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Calendar } from 'src/models/Calendar';
+import { Incident } from 'src/models/Events/Incident';
 
 @Component({
   selector: 'app-calendar',
@@ -19,6 +20,7 @@ export class CalendarComponent implements OnInit {
       this._dayID = Math.floor(res / 86400) + 719522;
     }
   }
+  @Input() incidentList!: Incident[];
 
   constructor() {}
 

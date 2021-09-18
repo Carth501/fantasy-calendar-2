@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Calendar } from 'src/models/Calendar';
 import { CalendarGroup } from 'src/models/CalendarGroup';
 import { Day } from 'src/models/Day';
+import { Event } from 'src/models/Events/Event'
+import { Incident } from 'src/models/Events/Incident';
 
 @Injectable({
   providedIn: 'root',
@@ -85,6 +87,7 @@ export class CalculatorService {
           },
         ],
         offsetDayID: 0,
+        recurrentEvents: []
       },
       {
         title: 'Hanke-Henry Permanent Calendar',
@@ -161,9 +164,28 @@ export class CalculatorService {
           },
         ],
         offsetDayID: -3,
+        recurrentEvents: []
       },
     ],
     //dayID: 738422,
+    dayID: 738422,
+    incidentList: [
+      {title: 'Project Started',
+      description: 'The date this project was began.',
+    dayID: 738392},
+      {title: 'Project Started',
+      description: 'The date this project was began.',
+    dayID: 738392},
+      {title: 'Project Started',
+      description: 'The date this project was began.',
+    dayID: 738392},
+      {title: 'Project Started',
+      description: 'The date this project was began.',
+    dayID: 738392},
+      {title: 'Project Started',
+      description: 'The date this project was began.',
+    dayID: 738392},
+    ]
     //dayID: 1,
   };
 
@@ -261,7 +283,8 @@ export class CalculatorService {
     calendar: Calendar,
     monthNum: number,
     year: number,
-    dayID: number
+    dayID: number,
+    incidentList: Incident[]
   ): Day[][] {
     const startOfYearID = this.calculateYearStartDayID(calendar, year);
     let x = 0;
@@ -285,13 +308,14 @@ export class CalculatorService {
       calendar,
       startOfMonthID,
       lastMonthLength,
-      monthLength
+      monthLength,
+      incidentList
     );
     this.checkDaysForSelected(dayID, month);
     return month;
   }
 
-  getMonth2DArrayByDayID(calendar: Calendar, dayID: number): Day[][] {
+  getMonth2DArrayByDayID(calendar: Calendar, dayID: number, incidentList: Incident[]): Day[][] {
     const yearData = this.calculateYear(calendar, dayID);
     const year = yearData[0];
     const dayOfYear = yearData[1];
@@ -306,7 +330,8 @@ export class CalculatorService {
       calendar,
       monthStartID,
       lastMonthLength,
-      monthLength
+      monthLength, 
+      incidentList
     );
     this.checkDaysForSelected(dayID, month);
     return month;
@@ -352,7 +377,8 @@ export class CalculatorService {
     calendar: Calendar,
     monthStartID: number,
     lastMonthLength: number,
-    monthLength: number
+    monthLength: number, 
+    incidentList: Incident[]
   ): Day[][] {
     const startingDOW = this.getDOW(calendar, monthStartID);
     let i = 0;
@@ -386,7 +412,7 @@ export class CalculatorService {
       month[y].push({
         dayOfMonth: x + 1,
         dayID: ID,
-        events: [],
+        events: this.getEventsForDay(calendar, ID, incidentList),
         selectedDay: false,
         inActiveMonth: true,
         i: i,
@@ -430,5 +456,26 @@ export class CalculatorService {
         }
       });
     });
+  }
+
+  getEventsForDay(calendar: Calendar, dayID: number, incidentList: Incident[] ): Event[] {
+    const list: Event[] = [];
+    if(incidentList && incidentList.length > 0) {
+      const incidents = this.getIncidentList(incidentList, dayID);
+      incidents.forEach(incident => {
+        list.push(incident)
+      })
+    }
+    return list;
+  }
+
+  getIncidentList(incidentList: Incident[], dayID: number): Event[] {
+    const list: Event[] = [];
+    incidentList.forEach(incident => {
+      if(incident.dayID === dayID) {
+        list.push(incident);
+      }
+    })
+    return list;
   }
 }

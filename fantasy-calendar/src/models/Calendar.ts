@@ -1,3 +1,4 @@
+import { Recurrence } from './Events/Recurrence';
 import { Month } from './Month';
 
 export interface Calendar {
@@ -6,4 +7,5 @@ export interface Calendar {
   dowOffset: number;
   offsetDayID: number;
   months: Month[];
+  recurrentEvents: Recurrence[];
 }

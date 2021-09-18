@@ -1,3 +1,5 @@
+import { Event } from './Events/Event';
+
 export interface Day {
   dayOfMonth: number;
   dayID: number;
